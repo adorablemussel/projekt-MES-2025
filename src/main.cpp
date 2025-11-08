@@ -17,10 +17,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
     // ((zmiana punktów całkowania i wymiarów w grid.h))
     grid mesh;
     GlobalData globalData;
@@ -66,6 +62,11 @@ int main(int argc, char *argv[])
         else {cout << "Bledna liczba punktow calkowania dla liczenia calki\n";}
     }
 
+    // Qt section
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.setValues(globalData.SimulationTime, globalData.SimulationStepTime, globalData.Conductivity, globalData.Alfa, globalData.Tot, globalData.InitialTemp, globalData.Density, globalData.SpecificHeat, globalData.npc, globalData.dimension, globalData.nN, globalData.nE);
+    w.show();
 
     return a.exec();
 }

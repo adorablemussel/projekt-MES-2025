@@ -15,6 +15,18 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setValues(double SimulationTime,
+                   double SimulationStepTime,
+                   double Conductivity,
+                   double Alfa,
+                   double Tot,
+                   double InitialTemp,
+                   double Density,
+                   double SpecificHeat,
+                   int npc,
+                   int dimension,
+                   int nN,
+                   int nE);
     ~MainWindow();
 
 private:
