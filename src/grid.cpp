@@ -213,6 +213,27 @@ void element::calculateJakobian(ElemUniv d){
     }
 }
 
+void element::calculateHMatrix(ElemUniv d, GlobalData data){
+    double conductivity = data.Conductivity;
+
+    // najpierw liczymy pochodne funkcji kształtu po x i y (macierz dN_dx i dN_dy)
+    for (int i = 0; i < NPC; i++){
+        for (int j = 0; j < 4; j++){
+            macierzH[i].dN_dx[j] = jakobian[i].J1[0][0] * d.dN_dKsi[i][j] + jakobian[i].J1[0][1] * d.dN_dEta[i][j];
+            macierzH[i].dN_dy[j] = jakobian[i].J1[1][0] * d.dN_dKsi[i][j] + jakobian[i].J1[1][1] * d.dN_dEta[i][j];
+        }
+    }
+
+    // składowe macierzy H (H w każdym punkcie całkowania)
+    for (int i = 0; i < NPC; i++){
+        for (int j = 0; j < 4; j++){
+            for (int k = 0; k < 4; k++){
+                macierzH[i].H[j][k] = conductivity * (macierzH[i].dN_dx[j] * macierzH[i].dN_dx[k] + macierzH[i].dN_dy[j] * macierzH[i].dN_dy[k]) * jakobian[i].detJ;
+            }
+        }
+    }
+}
+
 void ElemUniv::print(){
     for (int i = 0; i < NPC; i++){
         cout << "P" << i+1  << ":" << endl;
@@ -246,6 +267,18 @@ void element::print(int elementID){
         cout << "  detJ = " << jakobian[i].detJ << endl;
         cout << "    J1 = [ " << jakobian[i].J1[0][0] << "  " << jakobian[i].J1[0][1] << " ]" << endl;
         cout << "         [ " << jakobian[i].J1[1][0] << "  " << jakobian[i].J1[1][1] << " ]\n" << endl;
+    }
+    cout << " Macierz H w punktach calkowania: " << endl;
+    for (int i = 0; i < NPC; i++){
+        cout << "  P" << i + 1 << ":" << endl;
+        for (int j = 0; j < 4; j++){
+            cout << "     ";
+            for (int k = 0; k < 4; k++){
+                cout << macierzH[i].H[j][k] << " ";
+            }
+            cout << endl;
+        }
+        cout << "\n";
     }
 }
 

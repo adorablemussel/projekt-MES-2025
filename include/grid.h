@@ -7,7 +7,7 @@
 #include <cmath>
 
 #define D 2   // liczba wymiarów (1D = 1, 2D = 2, 3D = 3)
-#define NPC 4 // liczba punktow calkowania (dla 1D: 2, 3, 4, ...; dla 2D: 4, 9, 16, ...)
+#define NPC 9 // liczba punktow calkowania (dla 1D: 2, 3, 4, ...; dla 2D: 4, 9, 16, ...)
 
 using namespace std; 
 
@@ -39,11 +39,19 @@ struct Jakobian {
     double detJ;     // wyznacznik jakobianu
 };
 
+struct HMatrix {
+    double H[4][4];
+    double dN_dx[4];
+    double dN_dy[4];
+};
+
 struct element{
     node* ID[4];
     Jakobian jakobian[NPC];
+    HMatrix macierzH[NPC];
 
     void calculateJakobian(ElemUniv d); // liczy jakobiany dla wszystkich punktów całkowania
+    void calculateHMatrix(ElemUniv d, GlobalData data);  // liczy macierze H dla wszystkich punktów całkowania
     void print(int elementID = 0);      // można podać id do wyświetlania, albo nie
 };
 

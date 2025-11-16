@@ -2,6 +2,9 @@
 
 #include "grid.h"
 #include <cmath>
+#include <array>
+
+using namespace std;
 
 // forward deklaracje
 struct ElemUniv;
@@ -16,6 +19,7 @@ struct GaussTable2pt {
 
     static double integral1D_global(double (*f)(double), double x1, double x2);
     static double integral2D_global(double (*f)(double, double), ElemUniv d, element e);
+    static array<array<double, 4>, 4> integral2D_H(element e);
 };
 
 struct GaussTable3pt {
@@ -27,4 +31,5 @@ struct GaussTable3pt {
 
     static double integral1D_global(double (*f)(double), double x1, double x2);
     static double integral2D_global(double (*f)(double, double), ElemUniv d, element e);
+    static array<array<double, 4>, 4> integral2D_H(element e);
 };

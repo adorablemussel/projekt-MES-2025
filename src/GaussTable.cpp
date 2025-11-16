@@ -92,6 +92,50 @@ const double GaussTable2pt::w[2] = {
             return sum;
         }
     };
+    array<array<double, 4>, 4> GaussTable2pt::integral2D_H(element e){
+        if (NPC != 4){
+            cerr << "GaussTable2pt::integral2D_H: Ilosc punktow calkowania nie jest rowna 4" << endl;
+            exit(EXIT_FAILURE);
+        }
+        else {
+            double w1, w2;
+            //tworzę macierz zerową
+            array<array<double, 4>, 4> sum = {0,0,0,0,
+                                            0,0,0,0,
+                                            0,0,0,0,
+                                            0,0,0,0};
+
+            for (int i = 0; i < 4; i++){
+                switch (i){
+                    case 0:
+                        w1 = w[0];
+                        w2 = w[0];
+                        break;
+                    case 1:
+                        w1 = w[1];
+                        w2 = w[0];
+                        break;
+                    case 2:
+                        w1 = w[1];
+                        w2 = w[1];
+                        break;
+                    case 3:
+                        w1 = w[0];
+                        w2 = w[1];
+                    default:
+                        break;
+                }
+
+                for (int j = 0; j < 4; j++){
+                    for (int k = 0; k < 4; k++){
+                        sum[j][k] += e.macierzH[i].H[j][k] * w1 * w2;
+                    }
+                }
+            }
+
+            return sum;
+        }
+    };
 
 // Tabela Gaussa dla 3 punktów
 const double GaussTable3pt::x[3] = {
@@ -213,3 +257,68 @@ const double GaussTable3pt::w[3] = {
             return sum;
         }
     }
+    array<array<double, 4>, 4> GaussTable3pt::integral2D_H(element e){
+        if (NPC != 9){
+            cerr << "GaussTable3pt::integral2D_H: Ilosc punktow calkowania nie jest rowna 9" << endl;
+            exit(EXIT_FAILURE);
+        }
+        else {
+            double w1, w2;
+            //tworzę macierz zerową
+            array<array<double, 4>, 4> sum = {0,0,0,0,
+                                            0,0,0,0,
+                                            0,0,0,0,
+                                            0,0,0,0};
+
+            for (int i = 0; i < 9; i++){
+                switch (i){
+                    case 0:
+                        w1 = w[0];
+                        w2 = w[0];
+                        break;
+                    case 1:
+                        w1 = w[1];
+                        w2 = w[0];
+                        break;
+                    case 2:
+                        w1 = w[2];
+                        w2 = w[0];
+                        break;
+                    case 3:
+                        w1 = w[0];
+                        w2 = w[1];
+                        break;
+                    case 4:
+                        w1 = w[1];
+                        w2 = w[1];
+                        break;
+                    case 5:
+                        w1 = w[2];
+                        w2 = w[1];
+                        break;
+                    case 6:
+                        w1 = w[0];
+                        w2 = w[2];
+                        break;
+                    case 7:
+                        w1 = w[1];
+                        w2 = w[2];
+                        break;
+                    case 8:
+                        w1 = w[2];
+                        w2 = w[2];
+                        break;
+                    default:
+                        break;
+                }
+
+                for (int j = 0; j < 4; j++){
+                    for (int k = 0; k < 4; k++){
+                        sum[j][k] += e.macierzH[i].H[j][k] * w1 * w2;
+                    }
+                }
+            }
+
+            return sum;
+        }
+    };
