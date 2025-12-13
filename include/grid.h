@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <array>
 #include <cmath>
 
 #define D 2   // liczba wymiarów (1D = 1, 2D = 2, 3D = 3)
@@ -19,14 +20,15 @@ struct grid;
 struct GlobalData;
 
 struct node{
+    int id;
     double x;
     double y;
 };
 
 struct ElemUniv {
-    double N_KsiEta[NPC][4];      // funkcje kształtu, od ksi i eta
-    double dN_dKsi[NPC][4];       // pochodne funkcji ksztaltu N, po ksi
-    double dN_dEta[NPC][4];       // pochodne funkcji ksztaltu N, po eta
+    array<array<double, 4>, NPC> N_KsiEta;      // funkcje kształtu, od ksi i eta
+    array<array<double, 4>, NPC> dN_dKsi;       // pochodne funkcji ksztaltu N, po ksi
+    array<array<double, 4>, NPC> dN_dEta;       // pochodne funkcji ksztaltu N, po eta
 
     void calculateShapeFunctions();
     void calculateDerivatives();  // liczenie całek do Jakobianu (dla wszystkich punktów)
@@ -34,34 +36,40 @@ struct ElemUniv {
 };
 
 struct Jakobian {
-    double J[2][2];  // macierz jakobianu
-    double J1[2][2]; // macierz odwrotna jakobianu
+    array<array<double, 2>, 2> J;  // macierz jakobianu
+    array<array<double, 2>, 2> J1; // macierz odwrotna jakobianu
     double detJ;     // wyznacznik jakobianu
 };
 
 struct HMatrix {
-    double H[4][4];
-    double dN_dx[4];
-    double dN_dy[4];
+    array<array<double, 4>, 4> H_elem; // macierz H dla elementu (suma po punktach calkowania)
+    array<array<double, 4>, 4> H_npc;      // macierz H dla danego punktu calkowania
+    array<double, 4> dN_dx;
+    array<double, 4> dN_dy;
 };
 
 struct element{
-    node* ID[4];
-    Jakobian jakobian[NPC];
-    HMatrix macierzH[NPC];
+    int id;
+    array<node*, 4> nodes;
+    array<Jakobian, NPC> Jacobian;
+    array<HMatrix, NPC> H_local;
 
-    void calculateJakobian(ElemUniv d); // liczy jakobiany dla wszystkich punktów całkowania
+    void calculateJacobian(ElemUniv d); // liczy jakobiany dla wszystkich punktów całkowania
     void calculateHMatrix(ElemUniv d, GlobalData data);  // liczy macierze H dla wszystkich punktów całkowania
-    void print(int elementID = 0);      // można podać id do wyświetlania, albo nie
+    void print();      // można podać id do wyświetlania, albo nie
 };
 
 struct grid{
     int nE;
     int nN;
-    vector<element> element;
-    vector<node> node;
+    vector<element> elements;
+    vector<node> nodes;
 
+    vector<vector<double>> H_global{}; // globalna macierz H
+    
+    void calculateGlobalHMatrix(); // agregacja
     void print();
+    void printGlobalHMatrix();
 };
 
 struct GlobalData {

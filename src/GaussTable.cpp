@@ -3,11 +3,11 @@
 using namespace std;
 
 // Tabela Gaussa dla 2 punktów
-const double GaussTable2pt::x[2] = {
+const array<double, 2> GaussTable2pt::x = {
     -sqrt(1.0/3.0),
      sqrt(1.0/3.0)
 };
-const double GaussTable2pt::w[2] = {
+const array<double, 2> GaussTable2pt::w = {
     1.0,
     1.0
 };
@@ -63,8 +63,8 @@ const double GaussTable2pt::w[2] = {
             double w2;
 
             for (int i = 0; i < 4; i++){
-                xpc_global = e.ID[0]->x * d.N_KsiEta[i][0] + e.ID[1]->x * d.N_KsiEta[i][1] + e.ID[2]->x * d.N_KsiEta[i][2] + e.ID[3]->x * d.N_KsiEta[i][3];
-                ypc_global = e.ID[0]->y * d.N_KsiEta[i][0] + e.ID[1]->y * d.N_KsiEta[i][1] + e.ID[2]->y * d.N_KsiEta[i][2] + e.ID[3]->y * d.N_KsiEta[i][3];
+                xpc_global = e.nodes[0]->x * d.N_KsiEta[i][0] + e.nodes[1]->x * d.N_KsiEta[i][1] + e.nodes[2]->x * d.N_KsiEta[i][2] + e.nodes[3]->x * d.N_KsiEta[i][3];
+                ypc_global = e.nodes[0]->y * d.N_KsiEta[i][0] + e.nodes[1]->y * d.N_KsiEta[i][1] + e.nodes[2]->y * d.N_KsiEta[i][2] + e.nodes[3]->y * d.N_KsiEta[i][3];
 
                 switch (i){
                     case 0:
@@ -86,7 +86,7 @@ const double GaussTable2pt::w[2] = {
                         break;
                 }
 
-                sum += f(xpc_global, ypc_global) * e.jakobian[i].detJ * w1 * w2;
+                sum += f(xpc_global, ypc_global) * e.Jacobian[i].detJ * w1 * w2;
             }
 
             return sum;
@@ -128,7 +128,7 @@ const double GaussTable2pt::w[2] = {
 
                 for (int j = 0; j < 4; j++){
                     for (int k = 0; k < 4; k++){
-                        sum[j][k] += e.macierzH[i].H[j][k] * w1 * w2;
+                        sum[j][k] += e.H_local[i].H_npc[j][k] * w1 * w2;
                     }
                 }
             }
@@ -138,12 +138,12 @@ const double GaussTable2pt::w[2] = {
     };
 
 // Tabela Gaussa dla 3 punktów
-const double GaussTable3pt::x[3] = {
+const array<double, 3> GaussTable3pt::x = {
     -sqrt(3.0/5.0),
     0.0,
     sqrt(3.0/5.0)
 };
-const double GaussTable3pt::w[3] = {
+const array<double, 3> GaussTable3pt::w = {
     5.0/9.0,
     8.0/9.0,
     5.0/9.0
@@ -207,8 +207,8 @@ const double GaussTable3pt::w[3] = {
             double w2;
 
             for (int i = 0; i < 9; i++){
-                xpc_global = e.ID[0]->x * d.N_KsiEta[i][0] + e.ID[1]->x * d.N_KsiEta[i][1] + e.ID[2]->x * d.N_KsiEta[i][2] + e.ID[3]->x * d.N_KsiEta[i][3];
-                ypc_global = e.ID[0]->y * d.N_KsiEta[i][0] + e.ID[1]->y * d.N_KsiEta[i][1] + e.ID[2]->y * d.N_KsiEta[i][2] + e.ID[3]->y * d.N_KsiEta[i][3];
+                xpc_global = e.nodes[0]->x * d.N_KsiEta[i][0] + e.nodes[1]->x * d.N_KsiEta[i][1] + e.nodes[2]->x * d.N_KsiEta[i][2] + e.nodes[3]->x * d.N_KsiEta[i][3];
+                ypc_global = e.nodes[0]->y * d.N_KsiEta[i][0] + e.nodes[1]->y * d.N_KsiEta[i][1] + e.nodes[2]->y * d.N_KsiEta[i][2] + e.nodes[3]->y * d.N_KsiEta[i][3];
 
                 switch (i){
                     case 0:
@@ -251,7 +251,7 @@ const double GaussTable3pt::w[3] = {
                         break;
                 }
 
-                sum += f(xpc_global, ypc_global) * e.jakobian[i].detJ * w1 * w2;
+                sum += f(xpc_global, ypc_global) * e.Jacobian[i].detJ * w1 * w2;
             }
 
             return sum;
@@ -314,7 +314,7 @@ const double GaussTable3pt::w[3] = {
 
                 for (int j = 0; j < 4; j++){
                     for (int k = 0; k < 4; k++){
-                        sum[j][k] += e.macierzH[i].H[j][k] * w1 * w2;
+                        sum[j][k] += e.H_local[i].H_npc[j][k] * w1 * w2;
                     }
                 }
             }

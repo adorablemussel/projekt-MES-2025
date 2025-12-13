@@ -27,6 +27,7 @@ public:
                    int dimension,
                    int nN,
                    int nE);
+    void setFile(char* inputPath);
     ~MainWindow();
 
 private:

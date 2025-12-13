@@ -35,6 +35,27 @@ void MainWindow::setValues(double SimulationTime,
     ui->txtNe->setText(QString::number(nE));
 }
 
+void MainWindow::setFile(char *inputPath){
+    QString path = QString(inputPath);
+
+    ui->btnTest1_4_4->setStyleSheet("");
+    ui->btnTest2_4_4_MixGrid->setStyleSheet("");
+    ui->btnTest3_31_31_kwadrat->setStyleSheet("");
+
+    if(path == "grids/Test1_4_4.txt"){
+        ui->btnTest1_4_4->setStyleSheet("background-color: green; color: white;");
+    }
+    else if(path == "grids/Test2_4_4_MixGrid.txt"){
+        ui->btnTest2_4_4_MixGrid->setStyleSheet("background-color: green; color: white;");
+    }
+    else if(path == "grids/Test3_31_31_kwadrat.txt"){
+        ui->btnTest3_31_31_kwadrat->setStyleSheet("background-color: green; color: white;");
+    }
+    else{
+        ui->btnWlasna->setStyleSheet("background-color: green; color: white;");
+    }
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;

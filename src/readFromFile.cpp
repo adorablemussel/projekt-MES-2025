@@ -28,12 +28,12 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
         else if (key == "Nodes") {
             string tmp; ss >> tmp >> globalData.nN;
             mesh.nN = globalData.nN;
-            mesh.node.resize(globalData.nN);
+            mesh.nodes.resize(globalData.nN);
         }
         else if (key == "Elements") {
             string tmp; ss >> tmp >> globalData.nE;
             mesh.nE = globalData.nE;
-            mesh.element.resize(globalData.nE);
+            mesh.elements.resize(globalData.nE);
         }
         else if (key == "*Node") {
             for (int i = 0; i < globalData.nN; ++i) {
@@ -41,7 +41,8 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
                 stringstream nodeStream(line);
                 int idx;
                 char comma;
-                nodeStream >> idx >> comma >> mesh.node[i].x >> comma >> mesh.node[i].y;
+                nodeStream >> idx >> comma >> mesh.nodes[i].x >> comma >> mesh.nodes[i].y;
+                mesh.nodes[i].id = idx;
             }
         }
         else if (key == "*Element,") {
@@ -51,10 +52,11 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
                 int idx, n1, n2, n3, n4;
                 char comma;
                 elStream >> idx >> comma >> n1 >> comma >> n2 >> comma >> n3 >> comma >> n4;
-                mesh.element[i].ID[0] = &mesh.node[n1 - 1];
-                mesh.element[i].ID[1] = &mesh.node[n2 - 1];
-                mesh.element[i].ID[2] = &mesh.node[n3 - 1];
-                mesh.element[i].ID[3] = &mesh.node[n4 - 1];
+                mesh.elements[i].nodes[0] = &mesh.nodes[n1 - 1];
+                mesh.elements[i].nodes[1] = &mesh.nodes[n2 - 1];
+                mesh.elements[i].nodes[2] = &mesh.nodes[n3 - 1];
+                mesh.elements[i].nodes[3] = &mesh.nodes[n4 - 1];
+                mesh.elements[i].id = idx;
             }
         }
     }

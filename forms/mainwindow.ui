@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -80,28 +80,28 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="btnTest1_4_4">
              <property name="text">
               <string>Test1_4_4</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="btnTest2_4_4_MixGrid">
              <property name="text">
               <string>Test2_4_4_MixGrid</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="btnTest3_31_31_kwadrat">
              <property name="text">
               <string>Test3_31_31_kwadrat</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="btnWlasna">
              <property name="text">
               <string>Własna</string>
              </property>
