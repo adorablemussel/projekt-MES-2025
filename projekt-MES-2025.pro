@@ -16,14 +16,17 @@ SOURCES += \
     src/GaussTable.cpp \
     src/grid.cpp \
     src/functions.cpp \
-    src/readFromFile.cpp
+    src/readFromFile.cpp \
+    src/simulation.cpp
 
 HEADERS += \
+    include/config.h \
     include/mainwindow.h \
     include/GaussTable.h \
     include/grid.h \
-    include/functions.h\
-    include/readFromFile.h
+    include/functions.h \
+    include/readFromFile.h \
+    include/simulation.h
 
 FORMS += \
     forms/mainwindow.ui

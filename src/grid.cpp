@@ -7,11 +7,10 @@ void ElemUniv::calculateShapeFunctions(){
         }
     }
 
-    //implementacja tylko dla 2D
     double ksi = 0.0, eta = 0.0;
     switch (NPC){
         case 1:
-            cerr << "ElemUniv::calculateShapeFunctions: Nie zaimplementowano liczenia funkcji kształtu dla 1 punktu calkowania w 2D" << endl;
+            cerr << "ElemUniv::calculateShapeFunctions: Nie zaimplementowano liczenia funkcji ksztaltu dla 1 punktu calkowania w 2D" << endl;
             exit(EXIT_FAILURE);
         case 4:
             for (int i = 0; i < NPC; i ++){
@@ -69,107 +68,92 @@ void ElemUniv::calculateShapeFunctions(){
             }
             break;
         default:
-            cerr << "ElemUniv::calculateShapeFunctions: Niepoprawna ilosc punktow calkowania dla 2D" << endl;
+            cerr << "ElemUniv::calculateShapeFunctions: Niepoprawna ilosc punktow calkowania" << endl;
             exit(EXIT_FAILURE);
     }
 }
 
 void ElemUniv::calculateDerivatives(){
-    if (D == 1) {
-        //(żeby zaimplementować - trzeba zmienić tablice ze statycznych na dynamiczne bo zmienia się ilość równań w każdym wymiarze)
-        cerr << "ElemUniv::calculateDerivatives: Nie zaimplementowano liczenia calek Jakobianu dla 1D" << endl;
-        exit(EXIT_FAILURE);
-    }
-    else if (D == 2) {
-        double ksi, eta;
-        switch (NPC){
-            case 1:
-                cerr << "ElemUniv::calculateDerivatives: Nie zaimplementowano liczenia calek Jakobianu dla 1 punktu calkowania w 2D" << endl;
-                exit(EXIT_FAILURE);
-            case 4:
-                for (int i = 0; i < NPC; i ++){
-                    if (i == 0) { ksi = GaussTable2pt::x[0]; eta = GaussTable2pt::x[0];}
-                    else if (i == 1) { ksi = GaussTable2pt::x[1]; eta = GaussTable2pt::x[0];}
-                    else if (i == 2) { ksi = GaussTable2pt::x[1]; eta = GaussTable2pt::x[1];}
-                    else if (i == 3) { ksi = GaussTable2pt::x[0]; eta = GaussTable2pt::x[1];}
+    double ksi, eta;
+    switch (NPC){
+        case 1:
+            cerr << "ElemUniv::calculateDerivatives: Nie zaimplementowano liczenia calek Jakobianu dla 1 punktu calkowania w 2D" << endl;
+            exit(EXIT_FAILURE);
+        case 4:
+            for (int i = 0; i < NPC; i ++){
+                if (i == 0) { ksi = GaussTable2pt::x[0]; eta = GaussTable2pt::x[0];}
+                else if (i == 1) { ksi = GaussTable2pt::x[1]; eta = GaussTable2pt::x[0];}
+                else if (i == 2) { ksi = GaussTable2pt::x[1]; eta = GaussTable2pt::x[1];}
+                else if (i == 3) { ksi = GaussTable2pt::x[0]; eta = GaussTable2pt::x[1];}
 
-                    this->dN_dKsi[i][0] = -0.25 * (1 - eta);
-                    this->dN_dKsi[i][1] =  0.25 * (1 - eta);
-                    this->dN_dKsi[i][2] =  0.25 * (1 + eta);
-                    this->dN_dKsi[i][3] = -0.25 * (1 + eta);
+                this->dN_dKsi[i][0] = -0.25 * (1 - eta);
+                this->dN_dKsi[i][1] =  0.25 * (1 - eta);
+                this->dN_dKsi[i][2] =  0.25 * (1 + eta);
+                this->dN_dKsi[i][3] = -0.25 * (1 + eta);
 
-                    this->dN_dEta[i][0] = -0.25 * (1 - ksi);
-                    this->dN_dEta[i][1] = -0.25 * (1 + ksi);
-                    this->dN_dEta[i][2] =  0.25 * (1 + ksi);
-                    this->dN_dEta[i][3] =  0.25 * (1 - ksi);
-                }
-                break;
-            case 9:
-                for (int i = 0; i < NPC; i ++){
-                    if (i == 0) { ksi = GaussTable3pt::x[0]; eta = GaussTable3pt::x[0];}
-                    else if (i == 1) { ksi = GaussTable3pt::x[1]; eta = GaussTable3pt::x[0];}
-                    else if (i == 2) { ksi = GaussTable3pt::x[2]; eta = GaussTable3pt::x[0];}
-                    else if (i == 3) { ksi = GaussTable3pt::x[0]; eta = GaussTable3pt::x[1];}
-                    else if (i == 4) { ksi = GaussTable3pt::x[1]; eta = GaussTable3pt::x[1];}
-                    else if (i == 5) { ksi = GaussTable3pt::x[2]; eta = GaussTable3pt::x[1];}
-                    else if (i == 6) { ksi = GaussTable3pt::x[0]; eta = GaussTable3pt::x[2];}
-                    else if (i == 7) { ksi = GaussTable3pt::x[1]; eta = GaussTable3pt::x[2];}
-                    else if (i == 8) { ksi = GaussTable3pt::x[2]; eta = GaussTable3pt::x[2];}
-                    
-                    this->dN_dKsi[i][0] = -0.25 * (1 - eta);
-                    this->dN_dKsi[i][1] =  0.25 * (1 - eta);
-                    this->dN_dKsi[i][2] =  0.25 * (1 + eta);
-                    this->dN_dKsi[i][3] = -0.25 * (1 + eta);
+                this->dN_dEta[i][0] = -0.25 * (1 - ksi);
+                this->dN_dEta[i][1] = -0.25 * (1 + ksi);
+                this->dN_dEta[i][2] =  0.25 * (1 + ksi);
+                this->dN_dEta[i][3] =  0.25 * (1 - ksi);
+            }
+            break;
+        case 9:
+            for (int i = 0; i < NPC; i ++){
+                if (i == 0) { ksi = GaussTable3pt::x[0]; eta = GaussTable3pt::x[0];}
+                else if (i == 1) { ksi = GaussTable3pt::x[1]; eta = GaussTable3pt::x[0];}
+                else if (i == 2) { ksi = GaussTable3pt::x[2]; eta = GaussTable3pt::x[0];}
+                else if (i == 3) { ksi = GaussTable3pt::x[0]; eta = GaussTable3pt::x[1];}
+                else if (i == 4) { ksi = GaussTable3pt::x[1]; eta = GaussTable3pt::x[1];}
+                else if (i == 5) { ksi = GaussTable3pt::x[2]; eta = GaussTable3pt::x[1];}
+                else if (i == 6) { ksi = GaussTable3pt::x[0]; eta = GaussTable3pt::x[2];}
+                else if (i == 7) { ksi = GaussTable3pt::x[1]; eta = GaussTable3pt::x[2];}
+                else if (i == 8) { ksi = GaussTable3pt::x[2]; eta = GaussTable3pt::x[2];}
+                
+                this->dN_dKsi[i][0] = -0.25 * (1 - eta);
+                this->dN_dKsi[i][1] =  0.25 * (1 - eta);
+                this->dN_dKsi[i][2] =  0.25 * (1 + eta);
+                this->dN_dKsi[i][3] = -0.25 * (1 + eta);
 
-                    this->dN_dEta[i][0] = -0.25 * (1 - ksi);
-                    this->dN_dEta[i][1] = -0.25 * (1 + ksi);
-                    this->dN_dEta[i][2] =  0.25 * (1 + ksi);
-                    this->dN_dEta[i][3] =  0.25 * (1 - ksi);
-                }
-                break;
-            case 16:
-                for (int i = 0; i < NPC; i++){
-                    if (i == 0) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[0];}
-                    else if (i == 1) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[0];}
-                    else if (i == 2) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[0];}
-                    else if (i == 3) { ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[0];}
-                    else if (i == 4) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[1];}
-                    else if (i == 5) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[1];}
-                    else if (i == 6) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[1];}
-                    else if (i == 7) { ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[1];}
-                    else if (i == 8) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[2];}
-                    else if (i == 9) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[2];}
-                    else if (i == 10) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[2];}
-                    else if (i == 11) { ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[2];}
-                    else if (i == 12) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[3];}
-                    else if (i == 13) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[3];}
-                    else if (i == 14) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[3];}
-                    else {/* i == 15 */ ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[3];}
-                    
-                    this->dN_dKsi[i][0] = -0.25 * (1 - eta);
-                    this->dN_dKsi[i][1] =  0.25 * (1 - eta);
-                    this->dN_dKsi[i][2] =  0.25 * (1 + eta);
-                    this->dN_dKsi[i][3] = -0.25 * (1 + eta);
+                this->dN_dEta[i][0] = -0.25 * (1 - ksi);
+                this->dN_dEta[i][1] = -0.25 * (1 + ksi);
+                this->dN_dEta[i][2] =  0.25 * (1 + ksi);
+                this->dN_dEta[i][3] =  0.25 * (1 - ksi);
+            }
+            break;
+        case 16:
+            for (int i = 0; i < NPC; i++){
+                if (i == 0) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[0];}
+                else if (i == 1) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[0];}
+                else if (i == 2) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[0];}
+                else if (i == 3) { ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[0];}
+                else if (i == 4) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[1];}
+                else if (i == 5) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[1];}
+                else if (i == 6) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[1];}
+                else if (i == 7) { ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[1];}
+                else if (i == 8) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[2];}
+                else if (i == 9) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[2];}
+                else if (i == 10) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[2];}
+                else if (i == 11) { ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[2];}
+                else if (i == 12) { ksi = GaussTable4pt::x[0]; eta = GaussTable4pt::x[3];}
+                else if (i == 13) { ksi = GaussTable4pt::x[1]; eta = GaussTable4pt::x[3];}
+                else if (i == 14) { ksi = GaussTable4pt::x[2]; eta = GaussTable4pt::x[3];}
+                else {/* i == 15 */ ksi = GaussTable4pt::x[3]; eta = GaussTable4pt::x[3];}
+                
+                this->dN_dKsi[i][0] = -0.25 * (1 - eta);
+                this->dN_dKsi[i][1] =  0.25 * (1 - eta);
+                this->dN_dKsi[i][2] =  0.25 * (1 + eta);
+                this->dN_dKsi[i][3] = -0.25 * (1 + eta);
 
-                    this->dN_dEta[i][0] = -0.25 * (1 - ksi);
-                    this->dN_dEta[i][1] = -0.25 * (1 + ksi);
-                    this->dN_dEta[i][2] =  0.25 * (1 + ksi);
-                    this->dN_dEta[i][3] =  0.25 * (1 - ksi);
-                }
-                break;
-            default:
-                cerr << "ElemUniv::calculateDerivatives: Niepoprawna ilosc punktow calkowania dla 2D" << endl;
-                exit(EXIT_FAILURE);
-                break;
-        }
-    }
-    else if (D == 3){
-        cerr << "ElemUniv::calculateDerivatives: Nie zaimplementowano liczenia calek Jakobianu dla 3D" << endl;
-        exit(EXIT_FAILURE);
-    }
-    else {
-        cerr << "ElemUniv::calculateDerivatives: Niepoprawna ilosc wymiarow" << endl;
-        exit(EXIT_FAILURE);
+                this->dN_dEta[i][0] = -0.25 * (1 - ksi);
+                this->dN_dEta[i][1] = -0.25 * (1 + ksi);
+                this->dN_dEta[i][2] =  0.25 * (1 + ksi);
+                this->dN_dEta[i][3] =  0.25 * (1 - ksi);
+            }
+            break;
+        default:
+            cerr << "ElemUniv::calculateDerivatives: Niepoprawna ilosc punktow calkowania" << endl;
+            exit(EXIT_FAILURE);
+            break;
     }
 }
 
@@ -730,7 +714,7 @@ vector<double> SystemOfEquation::solveGauss(vector<vector<double>>& A, vector<do
 }
 
 void SystemOfEquation::solveSimulation(const GlobalData& data) {
-cout << "\n~ Symulacja procesu cieplnego ~" << endl;
+cout << "~ Symulacja procesu cieplnego ~" << endl;
 
     double dt = data.SimulationStepTime;
     int nSteps = static_cast<int>(data.SimulationTime / dt);
@@ -789,9 +773,8 @@ void GlobalData::print(){
     cout << " InitialTemp: " << InitialTemp << endl;
     cout << " Density: " << Density << endl;
     cout << " SpecificHeat: " << SpecificHeat << endl;
-    cout << " npc: " << npc << endl;
-    cout << " dimension: " << dimension << endl;
     cout << " nN: " << nN << endl;
     cout << " nE: " << nE << endl;
+    cout << " npc: " << npc << endl;
     cout << "\n";
 }

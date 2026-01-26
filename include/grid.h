@@ -1,5 +1,6 @@
 #pragma once
 
+#include "config.h"
 #include "GaussTable.h"
 #include <iostream>
 #include <string>
@@ -8,9 +9,7 @@
 #include <cmath>
 #include <algorithm>
 
-static constexpr int D = 2;    // liczba wymiarów (1D = 1, 2D = 2, 3D = 3)
-static constexpr int NPC = 9; // liczba punktow calkowania (dla 1D: 2, 3, 4, ...; dla 2D: 4, 9, 16, ...)
-
+using namespace config;
 using namespace std;
 
 struct node;
@@ -112,10 +111,10 @@ struct GlobalData {
     double InitialTemp;
     double Density;
     double SpecificHeat;
-    int npc = NPC;
-    int dimension = D;
     int nN;
     int nE;
+
+    int npc = NPC;
 
     void print();
 };

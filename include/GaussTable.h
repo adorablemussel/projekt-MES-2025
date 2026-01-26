@@ -1,10 +1,12 @@
 #pragma once
 
+#include "config.h"
 #include "grid.h"
 #include <cmath>
 #include <array>
 
 using namespace std;
+using namespace config;
 
 struct ElemUniv;
 struct element;

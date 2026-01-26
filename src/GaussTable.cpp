@@ -1,7 +1,5 @@
 #include "GaussTable.h"
 
-using namespace std;
-
 //Tabela Gaussa dla 2 punktów
 const array<double, 2> GaussTable2pt::x = {
     -sqrt(1.0/3.0),

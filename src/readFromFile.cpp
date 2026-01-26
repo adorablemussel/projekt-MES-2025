@@ -84,7 +84,7 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
 }
     }
 
-    cout << "Dane z pliku: " << filename << " zostaly wczytane\n" << endl;
+    cout << endl << "Dane z pliku: " << filename << " zostaly wczytane\n" << endl;
     file.close();
     return true;
 }
