@@ -1,5 +1,7 @@
 #include "functions.h"
 
+using namespace std;
+
 double gaussFunction1(double x) {
     return 5*(x)*(x) + 3*(x) + 6;
 }

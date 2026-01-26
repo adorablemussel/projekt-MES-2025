@@ -25,13 +25,23 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
         else if (key == "InitialTemp") ss >> globalData.InitialTemp;
         else if (key == "Density") ss >> globalData.Density;
         else if (key == "SpecificHeat") ss >> globalData.SpecificHeat;
-        else if (key == "Nodes") {
-            string tmp; ss >> tmp >> globalData.nN;
+        else if (key == "Nodes" || key == "Nodes_number") {
+            string next; ss >> next;
+            if (isdigit(next[0])) {
+                globalData.nN = stoi(next);
+            } else {
+                ss >> globalData.nN;
+            }
             mesh.nN = globalData.nN;
             mesh.nodes.resize(globalData.nN);
         }
-        else if (key == "Elements") {
-            string tmp; ss >> tmp >> globalData.nE;
+        else if (key == "Elements" || key == "Elements_number") {
+            string next; ss >> next;
+            if (isdigit(next[0])) {
+                globalData.nE = stoi(next);
+            } else {
+                ss >> globalData.nE;
+            }
             mesh.nE = globalData.nE;
             mesh.elements.resize(globalData.nE);
         }
@@ -43,6 +53,7 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
                 char comma;
                 nodeStream >> idx >> comma >> mesh.nodes[i].x >> comma >> mesh.nodes[i].y;
                 mesh.nodes[i].id = idx;
+                mesh.nodes[i].BC = false;
             }
         }
         else if (key == "*Element,") {
@@ -59,6 +70,18 @@ bool readFromFile(const string& filename, GlobalData& globalData, grid& mesh) {
                 mesh.elements[i].id = idx;
             }
         }
+        else if (key == "*BC") {
+            if (getline(file, line)) {
+                stringstream bcStream(line);
+                while (bcStream.good()) {
+                    int id; char comma;
+                    if (!(bcStream >> id)) break;
+                    if (id >= 1 && id <= mesh.nN) mesh.nodes[id - 1].BC = true;
+                    if (bcStream.peek() == ',') bcStream >> comma;
+                    while (bcStream.peek() == ' ') bcStream.get();
+        }
+    }
+}
     }
 
     cout << "Dane z pliku: " << filename << " zostaly wczytane\n" << endl;

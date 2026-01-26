@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// forward deklaracje
 struct ElemUniv;
 struct element;
 
@@ -33,5 +32,18 @@ struct GaussTable3pt {
     static double integral1D_global(double (*f)(double), double x1, double x2);
     static double integral2D_global(double (*f)(double, double), ElemUniv d, element e);
     
+    static array<array<double, 4>, 4> integral2D_H(element e);
+};
+
+struct GaussTable4pt {
+    static const array<double, 4> x;
+    static const array<double, 4> w;
+
+    static double integral1D_local(double (*f)(double));
+    static double integral2D_local(double (*f)(double, double));
+
+    static double integral1D_global(double (*f)(double), double x1, double x2);
+    static double integral2D_global(double (*f)(double, double), ElemUniv d, element e);
+
     static array<array<double, 4>, 4> integral2D_H(element e);
 };
