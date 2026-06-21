@@ -36,3 +36,6 @@ Symulator przewodzenia ciepła metodą elementów skończonych (MES) na siatkach
 ## Format pliku siatki
 - Pliki w folderze `grids/` są przykładami wejścia. Zawierają parametry globalne oraz węzły i elementy.
 - Własny plik powinien odwzorowywać strukturę tych testów (ten sam porządek pól; patrz implementacja `readFromFile.cpp`).
+
+## Podgląd działania  
+<img width="1261" height="622" alt="image" src="https://github.com/user-attachments/assets/c3de9bbf-3a71-4bdc-91d1-958b921254bb" />
